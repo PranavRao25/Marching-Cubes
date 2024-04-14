@@ -1,7 +1,5 @@
 // Plain JS version of Josh Forisha's implementation of opensimplex noise
 // https://github.com/joshforisha/open-simplex-noise-js
-// This version is currently posted here https://gist.github.com/PARC6502/85c99c04c9b3c6ae52c3c27605b4df0a
-// Will probably be cleaned up and have its own repo, at some point...
 
 "use strict";
 var OpenSimplexNoise;
