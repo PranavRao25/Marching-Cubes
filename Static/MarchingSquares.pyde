@@ -1,40 +1,28 @@
-# from noise import OpenSimplex
-# noise = OpenSimplex()
-
 cols,rows = 0,0
 rez = 20
-incr = 0.1 
 field = []
+grid = []
 
 def setup():
     fullScreen()
+    
     cols,rows = 1+ width/rez,1+height/rez
     
-    xoff,yoff = 0,0
+    # with open("h.txt","r") as file:
+    #     lines = file.readlines()
+    #     for i in lines:
+    #         s = [float(j) for j in i.split()]
+    #         grid.append(s)
+
+    for __ in range(cols):
+        grid.append([random(2) for _ in range(rows)])
+        
     for i in range(cols):
-        # xoff += 0.1
-        # yoff = 0
-        s = []
-        for j in range(rows):
-            # s.append(noise.noise_2d(xoff,yoff))
-            s.append(floor(random(2)))
-            # yoff += 0.1
-        field.append(s)
+        field.append([floor(grid[i][j]) for j in range(rows)])
     
 def draw():
     background(127)
     cols,rows = 1+width/rez,1+height/rez
-    
-    # xoff,yoff = 0,
-    # for i in range(cols):
-    #     xoff += 0.1
-    #     yoff = 0
-    #     s = []
-    #     for j in range(rows):
-    #         # s.append(noise.noise_2d(xoff,yoff))
-    #         s.append(floor(random(2)))
-    #         yoff += 0.1
-    #     field.append(s)
         
     for i in range(cols):
         for j in range(rows):
@@ -44,18 +32,16 @@ def draw():
     
     for i in range(cols-1):
         for j in range(rows-1):
-            x,y = i*rez,j*rez
-            
             # midpoint method
-            a = PVector((x + rez/2),y)
-            b = PVector((x + rez),(y + rez/2))
-            c = PVector((x + rez/2),(y + rez))
-            d = PVector(x,(y + rez/2))
-            state = getState(ceil(field[i][j]),ceil(field[i][j+1]),ceil(field[i+1][j]),ceil(field[i+1][j+1]))
+            # a,b,c,d = midPoint(i*rez,j*rez)
+            
+            # interPol method
+            a,b,c,d = interPol(i,j)
             
             stroke(255)
             strokeWeight(1)
-            
+            state = getState([field[i][j],field[i][j+1],field[i+1][j],field[i+1][j+1]])
+                       
             if(state==1):
                 lineMid(c,b)
             elif(state==2):
@@ -92,5 +78,25 @@ def draw():
 def lineMid(v1,v2):
     line(v1.x,v1.y,v2.x,v2.y)
     
-getState = lambda a,b,c,d: a*8+b*4+c*2+d*1
-                            
+getState = lambda l: sum([l[i]*(2**(len(l)-i-1)) for i in range(len(l))])
+
+def midPoint(x,y):
+    a = PVector((x + rez/2),y)
+    b = PVector((x + rez),(y + rez/2))
+    c = PVector((x + rez/2),(y + rez))
+    d = PVector(x,(y + rez/2))
+    
+    return (a,b,c,d)
+
+def interPol(i,j):
+    m1 = grid[i][j]/(grid[i][j+1]+1)
+    m2 = grid[i][j+1]/(grid[i+1][j+1]+1)
+    m3 = grid[i+1][j]/(grid[i+1][j+1]+1)
+    m4 = grid[i][j]/(grid[i+1][j]+1)
+    
+    a = PVector(i*rez,(j + m1)*rez)
+    b = PVector((i + m2)*rez,(j + 1)*rez)
+    c = PVector((i + 1)*rez,(j + m3)*rez)
+    d = PVector((i + m4)*rez,j*rez)
+    
+    return a,b,c,d
