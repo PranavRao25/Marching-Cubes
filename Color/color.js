@@ -1,9 +1,15 @@
 let field = []; // contains the gridpoints
 let rez = 25; // resolution value
 let cols, rows;
-let increment = 0.2; // increment value for noise
-let zoff = 0;
+let increment = 0.1; // increment value for noise
+let zoff = 0; // time span
+let mode; // midpoint method or interpolate method
 let noise;
+let inputField1; // input field for mode
+let inputFieldx; // input field for increment
+let inputFieldz; // input field for time span
+let textBoxValue = "Enter 0.5 for Midpoint or any other value for Interpolated";
+let submitButton; // button
 
 function setup() {
   createCanvas(1800, 1200); // screen size
@@ -18,15 +24,42 @@ function setup() {
     }
     field.push(k); // initialise of field
   }
-}
 
-function edge(v1, v2) { // draw line betweem two points
-  line(v1.x, v1.y, v2.x, v2.y);
+  textAlign(50, 60);
+
+  // mode input
+  inputField1 = createInput();
+  inputField1.position(width/2, 60);
+  submitButton = createButton('Enter for mode');
+  submitButton.position(width/2 + 50, 90);
+  submitButton.mousePressed(onInputMode);
+
+  // increment input
+  inputFieldx = createInput();
+  inputFieldx.position(width/2, 120);
+  submitButton = createButton('Enter for Space Movement');
+  submitButton.position(width/2 + 50, 150);
+  submitButton.mousePressed(onInputX);
+
+  // time span increment
+  inputFieldz = createInput();
+  inputFieldz.position(width/2, 180);
+  submitButton = createButton('Enter for Time Span');
+  submitButton.position(width/2 + 50, 210);
+  submitButton.mousePressed(onInputZ);
 }
 
 function draw() {
   background(0); // white background
   
+  fill(255);
+  rect(width/2 - 100, 20, 500, 30);
+  
+  // Display text inside text box
+  textSize(16);
+  text(textBoxValue, width/2 - 50, 35);
+  fill(255);
+
   // increment is used to emulate a moving screen
   let xoff = 0;
   for (let i = 0; i < cols; i++) {
@@ -37,23 +70,16 @@ function draw() {
       yoff += increment;
     }
   }
-  zoff += 0.02; // time change
+  zoff += 0.2; // time change
 
   // run for each square
   for (let i = 0; i < cols - 1; i++) {
     for (let j = 0; j < rows - 1; j++) {
-      // midpoint method
-      //let a = contour(i,j,0.5,0);
-      //let b = contour(i,j,0.5,1);
-      //let c = contour(i,j,0.5,2);
-      //let d = contour(i,j,0.5,3);
+      let a = contour(i,j,mode,0);
+      let b = contour(i,j,mode,1);
+      let c = contour(i,j,mode,2);
+      let d = contour(i,j,mode,3);
       
-      // interpolate method
-      let a = contour(i,j,1,0);
-      let b = contour(i,j,1,1);
-      let c = contour(i,j,1,2);
-      let d = contour(i,j,1,3);
-           
       // to get the binary value of a square
       let state = getState([ceil(field[i][j]),ceil(field[i + 1][j]),ceil(field[i + 1][j + 1]),ceil(field[i][j + 1])]);
       
@@ -67,7 +93,13 @@ function draw() {
       stroke(map(state, 0, 15, 100, 200), map(state, 0, 15, 0, 150), map(state, 0, 15, 200, 255), 255); // multicolor
 // 	  stroke(9,255,255); // mono color
 
-      switch (state) { // get the case for each state
+      displayState(state,a,b,c,d);
+    }
+  }
+}
+
+function displayState(state,a,b,c,d) { // to display each state config
+      switch (state) {
         case 1:
           edge(c, d);
           break;
@@ -113,8 +145,6 @@ function draw() {
           edge(c, d);
           break;
       }
-    }
-  }
 }
 
 function getState(l) { // convert 4 boolean values into decimal number
@@ -181,4 +211,20 @@ function contour(i,j,d,a) { // to find the edgepoints within squares
 
 function diff(a,b) { // linear difference between two points
 	return (1 - a) / (b - a);
+}
+
+function edge(v1, v2) { // draw line betweem two points
+  line(v1.x, v1.y, v2.x, v2.y);
+}
+
+function onInputMode() { // input function for mode
+  mode = parseFloat(inputField1.value());
+}
+
+function onInputX() { // input function for increment
+  increment = parseFloat(inputFieldx.value());
+}
+
+function onInputZ() { // input function for time span
+  zoff = parseFloat(inputFieldz.value());
 }
