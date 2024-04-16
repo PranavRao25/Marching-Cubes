@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Marching Squares Projects</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
+    <script src="OpenSimplexNoise.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>Marching Squares</h1>
+    <p>
+      This is a lab project done under the course CS5016 Computational Methods and Applications.
+
+      This project illustrates functionality of the Marching Sqaures Algorithm.
+      This algorithm is used to approximate shapes and images, and find contour lines/bands.
+
+      This algorithm is for 2D use-cases, but for 3D, we have Marching Cubes (with the same basic principle). Instead of Squares, we can have Triangles (called Triangle Meandering) or Tetrahedrons.
+    </p>
+    <p>
+      The basic principle of this algorithm is as follows:
+      <ol>
+      <li>Assume a grid around the shape (a plane in case of 2D or a cube in case of 3D).</li>
+      <li>Each grid unit (square/cube/triangle) would have a small subpart of the total shape.</li>
+      <li>Approximate the subpart with a line according to the pixel/image values corresponding to the unit.</li>
+      </ol>
+      Usually, this process is repeated sequentially for each unit (hence the name 'Marching').
+    </p>
+
+    <p>
+      Use Cases of these family of Algorithms:
+      <ol>
+        <li>Approximating Shapes in 2D/3D</li>
+        <li>Terrain Generation</li>
+      </ol>
+      Real Life Applications:
+      <ol>
+        <li>MRI/CT Scans (To get a visual representation of objects)</li>
+        <li>Video Games</li>
+        <li>Product Design</li>
+      </ol>
+    </p>
+
+    <p>
+      Here are two different applications of the 2D algorithm.
+      <ol>
+        <li>Noisy Screensaver: A noisy data is generated and the algorithm creates a landscape out of it.</li>
+        <li>Image Contouring: Given an image, get an approximation of the same.</li>
+      </ol>
+    </p>
+    <button onclick="ColorMS()">Noisy Screensaver</button>
+    <button onclick="ImageMS()">Image Contouring</button>
+    <script>
+      function ColorMS() {
+        // Change the location to the URL of the second webpage
+        window.location.href = 'Color/index.html';
+      }
+      function ImageMS() {
+        // Change the location to the URL of the second webpage
+        window.location.href = 'Image/index.html';
+      }
+    </script>
+  </body>
+</html>

@@ -6,7 +6,7 @@ let img;
 function preload() { // Load the image and create a p5.Image object.
    //let fileInput = createFileInput(handleFile);
    //fileInput.position(900, 20);
-   img = loadImage('input/priyanshu.jpg');
+   img = loadImage('input/spider.jpg');
 }
 
 function setup() {
