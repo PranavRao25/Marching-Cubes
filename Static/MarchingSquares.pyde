@@ -2,18 +2,12 @@ cols,rows = 0,0
 rez = 20
 field = []
 grid = []
+mode = 0.5
 
 def setup():
     fullScreen()
-    
     cols,rows = 1+ width/rez,1+height/rez
     
-    # with open("h.txt","r") as file:
-    #     lines = file.readlines()
-    #     for i in lines:
-    #         s = [float(j) for j in i.split()]
-    #         grid.append(s)
-
     for __ in range(cols):
         grid.append([random(2) for _ in range(rows)])
         
@@ -32,16 +26,17 @@ def draw():
     
     for i in range(cols-1):
         for j in range(rows-1):
-            # midpoint method
-            # a,b,c,d = midPoint(i*rez,j*rez)
-            
-            # interPol method
-            a,b,c,d = interPol(i,j)
+            a = contour(i,j,mode,0)
+            b = contour(i,j,mode,1)
+            c = contour(i,j,mode,2)
+            d = contour(i,j,mode,3)
             
             stroke(255)
             strokeWeight(1)
             state = getState([field[i][j],field[i][j+1],field[i+1][j],field[i+1][j+1]])
-                       
+            displayState(state,a,b,c,d)
+
+def displayState(state,a,b,c,d):
             if(state==1):
                 lineMid(c,b)
             elif(state==2):
@@ -73,8 +68,8 @@ def draw():
             elif(state==14):
                 lineMid(c,b)
             else:
-                continue
-            
+                pass
+
 def lineMid(v1,v2):
     line(v1.x,v1.y,v2.x,v2.y)
     
@@ -100,3 +95,37 @@ def interPol(i,j):
     d = PVector((i + m4)*rez,j*rez)
     
     return a,b,c,d
+
+getPoint = lambda (i,j,mode): midPoint(i*rez,j*rez) if(mode==0.5) else interPol(i,j)
+
+def contour(i,j,d,a): # to find the edgepoints within squares
+  x = i*rez
+  y = j*rez
+  
+  if(a==0): # a
+    if(d!=0.5):# interpolate
+      m_val = field[i][j]+1
+      n_val = field[i+1][j]+1
+      d = diff(m_val,n_val) # linear difference
+    k = PVector(lerp(x, x + rez, d),y)
+  elif(a==1): # b
+    if(d!=0.5): # interpolate
+      m_val = field[i+1][j]+1
+      n_val = field[i+1][j+1]+1
+      d = diff(m_val,n_val)
+    k = PVector(x + rez,lerp(y, y + rez, d))
+  elif(a==2): # c
+    if(d!=0.5): # interpolate
+      m_val = field[i+1][j+1]+1
+      n_val = field[i][j + 1] + 1
+      d = diff(n_val,m_val)
+    k = PVector(lerp(x, x+rez, d),y + rez)
+  else: # d
+    if(d!=0.5): # interpolate
+      m_val = field[i][j] + 1
+      n_val = field[i][j + 1] + 1
+      d = diff(m_val,n_val) 
+    k = PVector(x,lerp(y, y + rez, d))
+  return k
+
+diff = lambda a,b: (1-a)/(b-a) # linear difference between two points
