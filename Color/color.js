@@ -5,11 +5,14 @@ let increment = 0.1; // increment value for noise
 let zoff = 0; // time span
 let mode; // midpoint method or interpolate method
 let noise;
+let toggleButton;
+let isToggled = false;
 let inputField1; // input field for mode
 let inputFieldx; // input field for increment
 let inputFieldz; // input field for time span
-let textBoxValue = "Enter 0.5 for Midpoint or any other value for Interpolated";
-let submitButton; // button
+let submitButton1; // button
+let submitButton2; // button
+let submitButton3; // button
 
 function setup() {
   createCanvas(1800, 1200); // screen size
@@ -25,40 +28,51 @@ function setup() {
     field.push(k); // initialise of field
   }
 
-  textAlign(50, 60);
-
   // mode input
   inputField1 = createInput();
   inputField1.position(width/2, 60);
-  submitButton = createButton('Enter for mode');
-  submitButton.position(width/2 + 50, 90);
-  submitButton.mousePressed(onInputMode);
+  submitButton1 = createButton('Enter for mode');
+  submitButton1.position(width/2 + 50, 90);
+  submitButton1.mousePressed(onInputMode);
 
   // increment input
   inputFieldx = createInput();
   inputFieldx.position(width/2, 120);
-  submitButton = createButton('Enter for Space Movement');
-  submitButton.position(width/2 + 50, 150);
-  submitButton.mousePressed(onInputX);
+  submitButton2 = createButton('Enter for Space Movement');
+  submitButton2.position(width/2 + 50, 150);
+  submitButton2.mousePressed(onInputX);
 
   // time span increment
   inputFieldz = createInput();
   inputFieldz.position(width/2, 180);
-  submitButton = createButton('Enter for Time Span');
-  submitButton.position(width/2 + 50, 210);
-  submitButton.mousePressed(onInputZ);
+  submitButton3 = createButton('Enter for Time Span');
+  submitButton3.position(width/2 + 50, 210);
+  submitButton3.mousePressed(onInputZ);
+
+  toggleButton = createButton('Hide/Show');
+  toggleButton.position(950, 20);
+  toggleButton.mousePressed(toggleState);
 }
 
 function draw() {
   background(0); // white background
-  
-  fill(255);
-  rect(width/2 - 100, 20, 500, 30);
-  
-  // Display text inside text box
-  textSize(16);
-  text(textBoxValue, width/2 - 50, 35);
-  fill(255);
+
+  if(isToggled) {
+    submitButton1.hide();
+    submitButton2.hide();
+    submitButton3.hide();
+    inputField1.hide();
+    inputFieldx.hide();
+    inputFieldz.hide();
+  }
+  else {
+    submitButton1.show();
+    submitButton2.show();
+    submitButton3.show();
+    inputField1.show();
+    inputFieldx.show();
+    inputFieldz.show();
+  }
 
   // increment is used to emulate a moving screen
   let xoff = 0;
@@ -227,4 +241,8 @@ function onInputX() { // input function for increment
 
 function onInputZ() { // input function for time span
   zoff = parseFloat(inputFieldz.value());
+}
+
+function toggleState() {
+  isToggled = !isToggled;
 }

@@ -4,11 +4,14 @@ let cols, rows;
 let img;
 
 function preload() { // Load the image and create a p5.Image object.
-  img = loadImage('input/circle.jpg');
+   //let fileInput = createFileInput(handleFile);
+   //fileInput.position(900, 20);
+   img = loadImage('input/priyanshu.jpg');
 }
 
 function setup() {
   createCanvas(1920, 1800);
+
   cols = width / rez; // column size of field
   rows = height / rez; // row size of field
   for (let i = 0; i < cols; i++) {
@@ -19,8 +22,9 @@ function setup() {
     field.push(k); // initialise of field
   }
 }
-
+    
 function draw() {
+  img.resize(width/2, height/4);
   image(img, 0, 0); // Draw the image.
   
   loadPixels(); // get pixel array of the image
@@ -79,7 +83,8 @@ function contour(i,j,a) { // to find the edgepoints within squares
         case 0: // a
         m_val = field[i][j]+1;
         n_val = field[i+1][j] + 1;
-        d = diff(m_val,n_val); // linear difference
+        //d = diff(m_val,n_val); // linear difference
+        d = 0.5;
         k.x = lerp(x, x + rez, d); // distance from leftmost point
         k.y = y;
         break;
@@ -87,7 +92,8 @@ function contour(i,j,a) { // to find the edgepoints within squares
         case 1: // b
         m_val = field[i + 1][j] + 1;
         n_val = field[i + 1][j + 1] + 1;
-        d = diff(m_val,n_val);          
+        //d = diff(m_val,n_val);
+        d = 0.5;
         k.x = x + rez;
         k.y = lerp(y, y + rez, d);
         break;
@@ -95,7 +101,8 @@ function contour(i,j,a) { // to find the edgepoints within squares
         case 2: // c
         m_val = field[i + 1][j + 1] + 1;
         n_val = field[i][j + 1] + 1;
-        d = diff(n_val,m_val);
+        //d = diff(n_val,m_val);
+        d = 0.5;
         k.x = lerp(x, x+rez, d);
         k.y = y + rez;
         break;
@@ -103,7 +110,8 @@ function contour(i,j,a) { // to find the edgepoints within squares
         case 3: // d
         m_val = field[i][j] + 1;
         n_val = field[i][j + 1] + 1;
-        d = diff(m_val,n_val);          
+        //d = diff(m_val,n_val);          
+        d = 0.5;
         k.x = x;
         k.y = lerp(y, y + rez, d);
         break;
@@ -173,4 +181,21 @@ function getState(l) {
     sum += l[i]*(Math.pow(2,l.length-i-1));
   }
   return sum;
+}
+
+function handleFile(file) {
+  // Load the image
+  if (file.type === 'image') {
+    img = loadImage(file.data, () => {
+      // Resize the image to fit the canvas
+      img.resize(width, height);
+    });
+  }
+  else {
+    console.log('Load Image');
+  }
+}
+
+function diff(a,b) { // linear difference between two points
+    return (1 - a) / (b - a);
 }
