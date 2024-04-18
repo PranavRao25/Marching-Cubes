@@ -2,6 +2,7 @@ let field = []; // contains the gridpoints
 let rez = 25; // resolution value
 let cols, rows;
 let increment = 0.1; // increment value for noise
+let incrementx = 0.1;
 let zoff = 0; // time span
 let mode; // midpoint method or interpolate method
 let noise;
@@ -84,7 +85,7 @@ function draw() {
       yoff += increment;
     }
   }
-  zoff += 0.2; // time change
+  zoff += incrementx; // time change
 
   // run for each square
   for (let i = 0; i < cols - 1; i++) {
@@ -240,7 +241,7 @@ function onInputX() { // input function for increment
 }
 
 function onInputZ() { // input function for time span
-  zoff = parseFloat(inputFieldz.value());
+  incrementx = parseFloat(inputFieldz.value());
 }
 
 function toggleState() {
