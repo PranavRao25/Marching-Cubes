@@ -237,7 +237,7 @@ function onInputMode() {
 function imageLoaded(loadedImage) {
   // Resize the image to fit the canvas
   img = loadedImage;
-  img.resize(width, height);
+  img.resize(width/2, height/4);
   image(img,0,0);
   draw();
 }
