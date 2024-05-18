@@ -3,8 +3,7 @@ let rez = 10; // resolution value
 let cols, rows;
 let img;
 let mode = 0;
-let inputField1; // input field for mode
-let submitButton1; // button
+let submitButton; // button
 
 function setup() {
   createCanvas(1920, 1800);
@@ -19,17 +18,19 @@ function setup() {
     field.push(k); // initialise of field
   }
 
-  inputField1 = createInput();
-  inputField1.position(width/2, 60);
-  submitButton1 = createButton('Enter mode for Image');
-  submitButton1.position(width/2 + 10, 90);
-  submitButton1.mousePressed(onInputMode);
-}
+  submitButton = createButton('Upload Image');
+  submitButton.position(width/2, 90);
   
+  fileInput = createFileInput(handleFile);
+  fileInput.position(width/2, 90);
+  fileInput.hide();
+
+  submitButton.mousePressed(() => fileInput.elt.click());
+}
+
 function draw() {
-  // preload();
   if(img){
-    image(img, 0, 0); // Draw the image.
+    image(img, 0, 0); // Draw the image
     
     loadPixels(); // get pixel array of the image
     for (let i = 0; i < cols; i++) {
@@ -193,45 +194,8 @@ function getState(l) {
   return sum;
 }
 
-function handleFile(file) {
-  // Load the image
-  if (file.type === 'image') {
-    img = loadImage(file.data, () => {
-      // Resize the image to fit the canvas
-      img.resize(width, height);
-    });
-  }
-  else {
-    console.log('Load Image');
-  }
-}
-
 function diff(a,b) { // linear difference between two points
     return (1 - a) / (b - a);
-}
-
-function onInputMode() {
-  mode = parseInt(inputField1.value());
-  switch(mode) {
-    case 0:
-    img = loadImage('input/spider.jpg', imageLoaded, loadImageError);
-    break;
-
-    case 1:
-    img = loadImage('input/army.jpg', imageLoaded, loadImageError);
-    break;
-
-    case 2:
-    img = loadImage('input/circle.jpg', imageLoaded, loadImageError);
-    break;
-
-    case 3:
-    img = loadImage('input/linus.jpg', imageLoaded, loadImageError);
-    break;
-
-    default:
-    break;
-   }
 }
 
 function imageLoaded(loadedImage) {
@@ -244,4 +208,10 @@ function imageLoaded(loadedImage) {
 
 function loadImageError(err) {
   console.error('Error loading image:', err);
+}
+
+function handleFile(file) {
+  if (file.type === 'image') {
+    img = loadImage(file.data, imageLoaded, loadImageError);
+  }
 }
