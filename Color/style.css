@@ -5,3 +5,69 @@ html, body {
 canvas {
   display: block;
 }
+
+/* Basic button styling */
+.styled-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 10px;
+}
+
+/* Hover state */
+.styled-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Active state */
+.styled-button:active {
+    background-color: #004080;
+    transform: scale(0.95);
+}
+
+/* Focus state */
+.styled-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Container styling */
+#button-container {
+    display: flex;
+    gap: 20px; /* Spacing between buttons */
+    justify-content: center; /* Center the buttons horizontally */
+    padding: 20px; /* Optional: add padding around the button group */
+}
+
+/* Basic input field styling */
+.styled-input {
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f0f0f0;
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    margin: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Focus state */
+.styled-input:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Container styling */
+#input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}

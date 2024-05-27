@@ -106,7 +106,7 @@ function draw() {
 //      square(x, y, rez);
       strokeWeight(2); // stroke weight of the isolines
       stroke(map(state, 0, 15, 100, 200), map(state, 0, 15, 0, 150), map(state, 0, 15, 200, 255), 255); // multicolor
-// 	  stroke(9,255,255); // mono color
+//    stroke(9,255,255); // mono color
 
       displayState(state,a,b,c,d);
     }
@@ -165,67 +165,67 @@ function displayState(state,a,b,c,d) { // to display each state config
 function getState(l) { // convert 4 boolean values into decimal number
   let sum = 0;
   for (let i = 0; i < l.length; i++ ) {
-  	sum += l[i]*(Math.pow(2,l.length-i-1));
+    sum += l[i]*(Math.pow(2,l.length-i-1));
   }
   return sum
 }
 
 function contour(i,j,d,a) { // to find the edgepoints within squares
-	let m_val;
-	let n_val;
-	let k = createVector();
-	let x = i*rez;
-	let y = j*rez;
-	
-	switch(a) {
-		case 0: // a
-		if(d!=0.5) { // interpolate
-			m_val = field[i][j]+1;
-			n_val = field[i+1][j] + 1;
-			d = diff(m_val,n_val); // linear difference
-		}
-		k.x = lerp(x, x + rez, d); // distance from leftmost point
-	    k.y = y;
-		break;
-		
-		case 1: // b
-		if(d!=0.5) { // interpolate
-			m_val = field[i + 1][j] + 1;
-    	    n_val = field[i + 1][j + 1] + 1;
-			d = diff(m_val,n_val);    	    
-    	}
-		k.x = x + rez;
-	    k.y = lerp(y, y + rez, d);
-		break;
-		
-		case 2: // c
-		if(d!=0.5) { // interpolate
-			m_val = field[i + 1][j + 1] + 1;
-	      	n_val = field[i][j + 1] + 1;
-			d = diff(n_val,m_val);	      	
+  let m_val;
+  let n_val;
+  let k = createVector();
+  let x = i*rez;
+  let y = j*rez;
+  
+  switch(a) {
+    case 0: // a
+    if(d!=0.5) { // interpolate
+      m_val = field[i][j]+1;
+      n_val = field[i+1][j] + 1;
+      d = diff(m_val,n_val); // linear difference
+    }
+    k.x = lerp(x, x + rez, d); // distance from leftmost point
+      k.y = y;
+    break;
+    
+    case 1: // b
+    if(d!=0.5) { // interpolate
+      m_val = field[i + 1][j] + 1;
+          n_val = field[i + 1][j + 1] + 1;
+      d = diff(m_val,n_val);          
+      }
+    k.x = x + rez;
+      k.y = lerp(y, y + rez, d);
+    break;
+    
+    case 2: // c
+    if(d!=0.5) { // interpolate
+      m_val = field[i + 1][j + 1] + 1;
+          n_val = field[i][j + 1] + 1;
+      d = diff(n_val,m_val);          
         }
-		k.x = lerp(x, x+rez, d);
-	    k.y = y + rez;
-		break;
-		
-		case 3: // d
-		if(d!=0.5) { // interpolate
-			m_val = field[i][j] + 1;
-			n_val = field[i][j + 1] + 1;
-			d = diff(m_val,n_val);			
-	    }
-    	k.x = x;
+    k.x = lerp(x, x+rez, d);
+      k.y = y + rez;
+    break;
+    
+    case 3: // d
+    if(d!=0.5) { // interpolate
+      m_val = field[i][j] + 1;
+      n_val = field[i][j + 1] + 1;
+      d = diff(m_val,n_val);      
+      }
+      k.x = x;
         k.y = lerp(y, y + rez, d);
-		break;
-		
-		default:
-		break;
-	}
-	return k;
+    break;
+    
+    default:
+    break;
+  }
+  return k;
 }
 
 function diff(a,b) { // linear difference between two points
-	return (1 - a) / (b - a);
+  return (1 - a) / (b - a);
 }
 
 function edge(v1, v2) { // draw line betweem two points

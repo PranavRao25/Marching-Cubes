@@ -1,7 +1,68 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color: #FBE9D0;
 }
+
 canvas {
   display: block;
+}
+
+#header {
+  color: #E64833;
+  font-size: 3rem;
+  text-align: center;
+}
+
+#Intro {
+  color: #244855;
+  font-size: 2rem;
+}
+
+#Principle {
+  color: #244855;
+  font-size: 2rem;
+}
+
+#useCases {
+  color: #244855;
+  font-size: 2rem;
+}
+
+#Applications {
+  color: #244855;
+  font-size: 2rem;
+}
+
+#Buttons {
+  display: flex;
+  gap: 250px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.clickButton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #874F41;
+    background-color: #90AEAD;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.clickButton:hover {
+    background-color: #244855;
+    color: #E64833;
+    transform: scale(1.05);
+}
+
+.clickButton:active {
+    background-color: #244855;
+    transform: scale(0.95);
 }
